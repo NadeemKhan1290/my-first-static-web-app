@@ -1,0 +1,1076 @@
+<mvc:View
+	controllerName="MSADB.controller.Main"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.data="sap.viz.ui5.data"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+<SplitApp id="SplitAppDemo">
+	<masterPages>
+		<Page 					
+			id="master"
+			title="Smart Building"
+			backgroundDesign= "List"
+			icon="sap-icon://action"
+			class="sapUiStdPage masterPageCustom">
+			<customHeader>
+				<Bar>
+					<contentLeft>
+						<Image height="4rem" src="./image/FujitsuLogo.png"/>
+					</contentLeft>
+				</Bar>
+			</customHeader>
+			<List 
+				items="{
+					path: '/MenuList'
+				}"
+				itemPress=".onMasterListItemPress"
+			>
+				<StandardListItem
+					title="{Name}"
+					icon="{icon}"
+					iconDensityAware="false"
+					iconInset="false"
+					type="Active"
+					custom:to="{TargetPage}"/>
+			</List>
+		</Page>
+	</masterPages>
+	<detailPages>
+	<Page 				
+		id="Dashboard"
+		title="Smart Building - Dashboard"
+		backgroundDesign= "Solid"
+		class="sapUiStdPage">
+		<l:BlockLayout id="BlockLayout" background="Dashboard" class="blockLayoutCustom">
+			<l:BlockLayoutRow accentCells="Accent1" scrollable="false">
+				<l:BlockLayoutCell title = "Consumption" titleAlignment="Left" class="blockLayoutCellCustom">
+					<viz:VizFrame 
+						height='15.4rem' width="100%" vizType='donut'
+						vizProperties="{
+							legend : {
+								drawingEffect : 'glossy',
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							legendGroup : {
+								layout : {
+									position : 'right'
+								}
+							},
+							plotArea : {
+								drawingEffect : 'glossy',
+								dataLabel : {
+									visible : 'true',
+									style : {
+										color : 'white'
+									},
+									formatString : '0.00'
+								}
+							},
+							valueAxis : {
+								color: 'white',
+								visible : 'true',
+								title : {
+									visible : 'false'
+								},
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							categoryAxis : {
+								color: 'white',
+								visible : 'true',
+								title : {
+									visible : 'false'
+								},
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							title : {
+								text : '',
+								visible : 'false'
+							}
+						}">
+						<viz:dataset>
+							<viz.data:FlattenedDataset data="{/ConsumptionByMonth}">
+								<viz.data:dimensions>
+									<viz.data:DimensionDefinition name="Category"
+										value="{Category}" />
+								</viz.data:dimensions>
+								<viz.data:measures>
+									<viz.data:MeasureDefinition name="Cost"
+										value="{Value}" />
+								</viz.data:measures>
+							</viz.data:FlattenedDataset>
+						</viz:dataset>
+
+						<viz:feeds>
+							<viz.feeds:FeedItem uid="size" type="Measure" values="Cost" />
+							<viz.feeds:FeedItem uid="color" type="Dimension" values="Category" />
+						</viz:feeds>
+					</viz:VizFrame>
+				</l:BlockLayoutCell>
+				<l:BlockLayoutCell title = "CHANGE IN COST($)" titleAlignment="Left" class="blockLayoutCellCustom">
+				
+					<viz:VizFrame 
+						height='15.4rem' width="100%" vizType='column'
+						vizProperties="{
+							legend : {
+								drawingEffect : 'glossy',
+								visible : 'false'
+							},
+							legendGroup : {
+								layout : {
+									position : 'right'
+								}
+							},
+							plotArea : {
+								drawingEffect : 'glossy',
+								gridline : {
+									visible : 'false'
+								},
+								dataLabel : {
+									visible : 'true',
+									style : {
+										color : 'white'
+									},
+									formatString : '$ 0.00'
+								}
+							},
+							valueAxis : {
+								color: 'white',
+								visible : 'false',
+								title : {
+									visible : 'false'
+								},
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							categoryAxis : {
+								color: 'white',
+								visible : 'true',
+								title : {
+									visible : 'false'
+								},
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							title : {
+								text : '',
+								visible : 'false'
+							}
+						}">
+						<viz:dataset>
+							<viz.data:FlattenedDataset data="{/ChangeInCost}">
+								<viz.data:dimensions>
+									<viz.data:DimensionDefinition name="Date"
+										value="{Date}"/>
+								</viz.data:dimensions>
+								<viz.data:measures>
+									<viz.data:MeasureDefinition name="PowerCost"
+										value="{PowerCost}"/>
+								</viz.data:measures>
+							</viz.data:FlattenedDataset>
+						</viz:dataset>
+
+						<viz:feeds>
+							<viz.feeds:FeedItem uid="valueAxis" type="Measure"
+								values="PowerCost"/>
+							<viz.feeds:FeedItem uid="categoryAxis" type="Dimension"
+								values="Date" />
+						</viz:feeds>
+					</viz:VizFrame>
+				
+				</l:BlockLayoutCell>
+				<l:BlockLayoutCell title = "USAGE ESTIMATE(kWh)" titleAlignment="Left" class="blockLayoutCellCustom">
+					<viz:VizFrame 
+						height='15.4rem' width="100%" vizType='area'
+						vizProperties="{
+							legend : {
+								drawingEffect : 'glossy',
+								marker : {
+									size : 3
+								},
+								visible : 'false'
+							},
+							legendGroup : {
+								layout : {
+									position : 'right'
+								}
+							},
+							plotArea : {
+								drawingEffect : 'glossy',
+								dataPoint : {
+									stroke : {visible:'true'}
+								}
+							},
+							valueAxis : {
+								color: 'white',
+								visible : 'true',
+								title : {
+									visible : 'false'
+								},
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							categoryAxis : {
+								color: 'white',
+								visible : 'true',
+								title : {
+									visible : 'false'
+								},
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							title : {
+								text : '',
+								visible : 'false'
+							}
+						}">
+						<viz:dataset>
+							<viz.data:FlattenedDataset data="{/UsageEstimate}">
+								<viz.data:dimensions>
+									<viz.data:DimensionDefinition name="Date"
+										value="{Date}" />
+								</viz.data:dimensions>
+								<viz.data:measures>
+									<viz.data:MeasureDefinition name="Energy"
+										value="{Energy}" />
+								</viz.data:measures>
+							</viz.data:FlattenedDataset>
+						</viz:dataset>
+
+						<viz:feeds>
+							<viz.feeds:FeedItem uid="valueAxis" type="Measure"
+								values="Energy" />
+							<viz.feeds:FeedItem uid="categoryAxis" type="Dimension"
+								values="Date" />
+						</viz:feeds>
+					</viz:VizFrame>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+			<l:BlockLayoutRow accentCells="Accent1" scrollable="false">
+				<l:BlockLayoutCell title = "ACTIVE APPLIANCES(kWh)" titleAlignment="Left" class="blockLayoutCellCustom">
+					<viz:VizFrame 
+						height='15.4rem' width="100%" vizType='bar'
+						vizProperties="{
+							legend : {
+								drawingEffect : 'glossy',
+								visible : 'false'
+							},
+							legendGroup : {
+								layout : {
+									position : 'right'
+								}
+							},
+							plotArea : {
+								drawingEffect : 'glossy',
+								dataLabel : {
+									visible : 'true',
+									style : {
+										color : 'white'
+									},
+									formatString : '0.00'
+								},
+								gridline : {
+									visible : 'false'
+								}
+							},
+							valueAxis : {
+								color: 'white',
+								visible : 'false',
+								title : {
+									visible : 'false'
+								},
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							categoryAxis : {
+								color: 'white',
+								visible : 'true',
+								title : {
+									visible : 'false'
+								},
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							title : {
+								text : '',
+								visible : 'false'
+							}
+						}">
+						<viz:dataset>
+							<viz.data:FlattenedDataset data="{/ActiveAppliances}">
+								<viz.data:dimensions>
+									<viz.data:DimensionDefinition name="Appliance"
+										value="{CategoryDesc}" />
+								</viz.data:dimensions>
+								<viz.data:measures>
+									<viz.data:MeasureDefinition name="Power"
+										value="{Power}" />
+								</viz.data:measures>
+							</viz.data:FlattenedDataset>
+						</viz:dataset>
+
+						<viz:feeds>
+							<viz.feeds:FeedItem uid="valueAxis" type="Measure"
+								values="Power" />
+							<viz.feeds:FeedItem uid="categoryAxis" type="Dimension"
+								values="Appliance" />
+						</viz:feeds>
+					</viz:VizFrame>
+				</l:BlockLayoutCell>
+				<l:BlockLayoutCell title = "ENERGY INTENSITY(kWh/Sqft)" titleAlignment="Left" class="blockLayoutCellCustom">
+					<viz:VizFrame 
+						height='15.4rem' width="100%" vizType='pie'
+						vizProperties="{
+							legend : {
+								drawingEffect : 'glossy',
+								visible : 'false'
+							},
+							legendGroup : {
+								layout : {
+									position : 'right'
+								}
+							},
+							plotArea : {
+								drawingEffect : 'glossy',
+								gridline : {
+									visible : 'false'
+								},
+								dataLabel : {
+									visible : 'true',
+									style : {
+										color : 'white'
+									},
+									formatString : '0.00'
+								}
+							},
+							valueAxis : {
+								color: 'white',
+								visible : 'false',
+								title : {
+									visible : 'false'
+								},
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							categoryAxis : {
+								color: 'white',
+								visible : 'true',
+								title : {
+									visible : 'false'
+								},
+								label : {
+									style : {
+										color : 'white'
+									}
+								}
+							},
+							title : {
+								text : '',
+								visible : 'false'
+							}
+						}">
+						<viz:dataset>
+							<viz.data:FlattenedDataset data="{/EnergyIntensity}">
+								<viz.data:dimensions>
+									<viz.data:DimensionDefinition name="Name"
+										value="{Name}" />
+								</viz.data:dimensions>
+								<viz.data:measures>
+									<viz.data:MeasureDefinition name="Value"
+										value="{Value}" />
+								</viz.data:measures>
+							</viz.data:FlattenedDataset>
+						</viz:dataset>
+
+						<viz:feeds>
+							<viz.feeds:FeedItem uid="size" type="Measure"
+								values="Value" />
+							<viz.feeds:FeedItem uid="color" type="Dimension"
+								values="Name" />
+						</viz:feeds>
+					</viz:VizFrame>
+				</l:BlockLayoutCell>
+				<l:BlockLayoutCell title = "CARBON FOOTPRINT" titleAlignment="Left" class="blockLayoutCellCustom">
+					<Label text="Emision(CO2)" design="Bold" class="sapUiSmallMarginTop"/>
+					<ProgressIndicator
+						percentValue="9"
+						displayValue="1.1 Kg of 5.9 Kg"
+						showValue="true"
+						state="Success" />
+					<Label text="Green Energy Generated" design="Bold" class="sapUiLargeMarginTop"/>
+					<ProgressIndicator
+						percentValue="9"
+						displayValue="0.73 kWh of 1.6 kWh"
+						showValue="true"
+						state="Success" />
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+	</Page>
+	<Page 				
+		id="Cost"
+		title="Smart Building - Cost"
+		backgroundDesign= "Solid"
+		class="sapUiStdPage">
+		<l:BlockLayout background="Dashboard" class="blockLayoutCustom">
+			<l:BlockLayoutRow accentCells="Accent1" scrollable="false">
+				<l:BlockLayoutCell title = "COST" titleAlignment="Left" class="blockLayoutCellCustom">
+					<IconTabBar
+						class="sapUiResponsiveContentPadding">
+						<items>
+							<IconTabFilter text="THIS MONTH" key="thisMonth">
+								<HBox justifyContent="SpaceAround">
+									<VBox class="sapUiMediumMargin">
+										<Text text="{/LastMonthName}"/>
+										<Text text="${/LastMonthTotalCost}" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="SO FAR THIS MONTH"/>
+										<Text text="${/ThisMonthTotalCost}" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="PREDICTED THIS MONTH"/>
+										<Text text="${/PredictedThisMonthTotalCost}" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="ESTIMATED SAVINGS"/>
+										<Text text="${/PredictedThisMonthSaving}" class="textCustom"/>
+									</VBox>
+								</HBox>
+								<viz:VizFrame 
+									height='20rem' width="100%" vizType='stacked_column'
+									vizProperties="{
+										legend : {
+											drawingEffect : 'glossy',
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										legendGroup : {
+											layout : {
+												position : 'right'
+											}
+										},
+										plotArea : {
+											drawingEffect : 'glossy'
+										},
+										valueAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										categoryAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										title : {
+											text : '',
+											visible : 'false'
+										}
+									}">
+									<viz:dataset>
+										<viz.data:FlattenedDataset data="{/ThisMonthCost}">
+											<viz.data:dimensions>
+												<viz.data:DimensionDefinition name="Date"
+													value="{Date}" />
+											</viz.data:dimensions>
+											<viz.data:measures>
+												<viz.data:MeasureDefinition name="Electricity"
+													value="{PowerCost}" />
+												<viz.data:MeasureDefinition name="Gas"
+													value="{EnergyCost}" />
+											</viz.data:measures>
+										</viz.data:FlattenedDataset>
+									</viz:dataset>
+
+									<viz:feeds>
+										<viz.feeds:FeedItem uid="valueAxis" type="Measure"
+											values="Electricity,Gas"/>
+										<viz.feeds:FeedItem uid="categoryAxis" type="Dimension"
+											values="Date"/>
+									</viz:feeds>
+								</viz:VizFrame>
+							</IconTabFilter>
+							<IconTabFilter text="LAST MONTH" key="lastMonth">
+								<HBox justifyContent="SpaceAround">
+									<VBox class="sapUiMediumMargin">
+										<Text text="{/SecondLastMonthName}"/>
+										<Text text="${/SecondLastMonthTotalCost}" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="{/LastMonthName}"/>
+										<Text text="${/LastMonthTotalCost}"  class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="SAVINGS"/>
+										<Text text="-${/LastMonthSaving}" class="textCustom"/>
+									</VBox>
+								</HBox>
+								<viz:VizFrame 
+									height='20rem' width="100%" vizType='stacked_column'
+									vizProperties="{
+										legend : {
+											drawingEffect : 'glossy',
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										legendGroup : {
+											layout : {
+												position : 'right'
+											}
+										},
+										plotArea : {
+											drawingEffect : 'glossy'
+										},
+										valueAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										categoryAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										title : {
+											text : '',
+											visible : 'false'
+										}
+									}">
+									<viz:dataset>
+										<viz.data:FlattenedDataset data="{/LastMonthCost}">
+											<viz.data:dimensions>
+												<viz.data:DimensionDefinition name="Date"
+													value="{Date}" />
+											</viz.data:dimensions>
+											<viz.data:measures>
+												<viz.data:MeasureDefinition name="Electricity"
+													value="{PowerCost}" />
+												<viz.data:MeasureDefinition name="Gas"
+													value="{EnergyCost}" />
+											</viz.data:measures>
+										</viz.data:FlattenedDataset>
+									</viz:dataset>
+
+									<viz:feeds>
+										<viz.feeds:FeedItem uid="valueAxis" type="Measure"
+											values="Electricity,Gas"/>
+										<viz.feeds:FeedItem uid="categoryAxis" type="Dimension"
+											values="Date"/>
+									</viz:feeds>
+								</viz:VizFrame>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+	</Page>
+	<Page 				
+		id="UsageByFloor"
+		title="Smart Building - Usage By Floor"
+		backgroundDesign= "Solid"
+		class="sapUiStdPage">
+		<l:BlockLayout background="Dashboard" class="blockLayoutCustom">
+			<l:BlockLayoutRow accentCells="Accent1" scrollable="false">
+				<l:BlockLayoutCell title = "Usage By Floor" titleAlignment="Left" class="blockLayoutCellCustom">
+					<IconTabBar
+						class="sapUiResponsiveContentPadding">
+						<items>
+							<IconTabFilter text="THIS MONTH" key="thisMonth">
+								<HBox justifyContent="SpaceAround" alignContent="SpaceAround" alignItems="Center">
+									<ComboBox
+										selectedKey="Floor1"
+										items="{
+											path: '/FloorList'
+										}"
+										class="sapUiMediumMargin"
+										change="onTMListChange">
+										<core:Item key="{Key}" text="{Name}" />
+									</ComboBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="460 kWh" class="textCustom"/>
+										<HBox justifyContent="SpaceAround">
+											<VBox class="sapUiMediumMargin">
+												<Text text="Electricity"/>
+												<Text text="Gas"/>
+											</VBox>
+											<VBox class="sapUiMediumMargin">
+												<Text text="276kWh"/>
+												<Text text="184kWh"/>
+											</VBox>
+										</HBox>
+									</VBox>
+								</HBox>
+								<viz:VizFrame 
+									height='20rem' width="100%" vizType='heatmap'
+									vizProperties="{
+										legend : {
+											drawingEffect : 'glossy',
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										legendGroup : {
+											layout : {
+												position : 'right'
+											}
+										},
+										plotArea : {
+											drawingEffect : 'glossy'
+										},
+										valueAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										categoryAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										categoryAxis2 : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										title : {
+											text : '',
+											visible : 'false'
+										}
+									}">
+									<viz:dataset>
+										<viz.data:FlattenedDataset data = "{/ThisMonthUnit}">
+											<viz.data:dimensions>
+												<viz.data:DimensionDefinition name = "Area"
+													value = "{Area}" />
+												<viz.data:DimensionDefinition name = "Date"
+													value = "{Date}" />
+											</viz.data:dimensions>
+											<viz.data:measures>
+												<viz.data:MeasureDefinition name = "Unit(kWh)"
+													value = "{Unit}" />
+											</viz.data:measures>
+										</viz.data:FlattenedDataset>
+									</viz:dataset>
+
+									<viz:feeds>
+										<viz.feeds:FeedItem uid = "color" type = "Measure"
+											values = "Unit(kWh)" />
+										<viz.feeds:FeedItem uid = "categoryAxis" type = "Dimension"
+											values = "Date" />    
+										<viz.feeds:FeedItem uid = "categoryAxis2" type = "Dimension"
+											values = "Area" />
+									</viz:feeds>
+								</viz:VizFrame>
+							</IconTabFilter>
+							<IconTabFilter text="LAST MONTH" key="lastMonth">
+								<HBox justifyContent="SpaceAround">
+									<ComboBox
+										selectedKey="Floor1"
+										items="{
+											path: '/FloorList'
+										}"
+										class="sapUiMediumMargin"
+										change="onLMListChange">
+										<core:Item key="{Key}" text="{Name}" />
+									</ComboBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="480 kWh" class="textCustom"/>
+										<HBox justifyContent="SpaceAround">
+											<VBox class="sapUiMediumMargin">
+												<Text text="Electricity"/>
+												<Text text="Gas"/>
+											</VBox>
+											<VBox class="sapUiMediumMargin">
+												<Text text="266kWh"/>
+												<Text text="164kWh"/>
+											</VBox>
+										</HBox>
+									</VBox>
+								</HBox>
+								<viz:VizFrame 
+									height='20rem' width="100%" vizType='heatmap'
+									vizProperties="{
+										legend : {
+											drawingEffect : 'glossy',
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										legendGroup : {
+											layout : {
+												position : 'right'
+											}
+										},
+										plotArea : {
+											drawingEffect : 'glossy'
+										},
+										valueAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										categoryAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										categoryAxis2 : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										title : {
+											text : '',
+											visible : 'false'
+										}
+									}">
+									<viz:dataset>
+										<viz.data:FlattenedDataset data = "{/LastMonthUnit}">
+											<viz.data:dimensions>
+												<viz.data:DimensionDefinition name = "Area"
+													value = "{Area}" />
+												<viz.data:DimensionDefinition name = "Date"
+													value = "{Date}" />
+											</viz.data:dimensions>
+											<viz.data:measures>
+												<viz.data:MeasureDefinition name = "Unit"
+													value = "{Unit}" />
+											</viz.data:measures>
+										</viz.data:FlattenedDataset>
+									</viz:dataset>
+
+									<viz:feeds>
+										<viz.feeds:FeedItem uid = "color" type = "Measure"
+											values = "Unit" />
+										<viz.feeds:FeedItem uid = "categoryAxis" type = "Dimension"
+											values = "Date" />    
+										<viz.feeds:FeedItem uid = "categoryAxis2" type = "Dimension"
+											values = "Area" />
+									</viz:feeds>
+								</viz:VizFrame>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+	</Page>
+	<Page 				
+		id="Emissions"
+		title="Smart Building - Emissions"
+		backgroundDesign= "Solid"
+		class="sapUiStdPage">
+		<l:BlockLayout background="Dashboard" class="blockLayoutCustom">
+			<l:BlockLayoutRow accentCells="Accent1" scrollable="false">
+				<l:BlockLayoutCell title = "EMISSION" titleAlignment="Left" class="blockLayoutCellCustom">
+					<IconTabBar
+						class="sapUiResponsiveContentPadding">
+						<items>
+							<IconTabFilter text="CARBON FOOTPRINT" key="carbonFootprint">
+								<HBox justifyContent="SpaceAround">
+									<VBox class="sapUiMediumMargin">
+										<Text text="{/LastMonthName}"/>
+										<Text text="{/LastMonthTotalPower} kg" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="SO FAR THIS MONTH"/>
+										<Text text="{/ThisMonthTotalPower} kg" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="PREDICTED THIS MONTH"/>
+										<Text text="{/PredictedThisMonthTotalPower} kg" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="CHANGE IN EMISSIONS"/>
+										<Text text="{/ChangeInEmissionP} %" class="textCustom"/>
+									</VBox>
+								</HBox>
+								<viz:VizFrame 
+									height='20rem' width="100%" vizType='line'
+									vizProperties="{
+										legend : {
+											drawingEffect : 'glossy',
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										legendGroup : {
+											layout : {
+												position : 'right'
+											}
+										},
+										plotArea : {
+											drawingEffect : 'glossy'
+										},
+										valueAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										categoryAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										title : {
+											text : '',
+											visible : 'false'
+										}
+									}">
+									<viz:dataset>
+										<viz.data:FlattenedDataset data="{/ThisMonthCost}">
+											<viz.data:dimensions>
+												<viz.data:DimensionDefinition name="Day"
+													value="Day {Day}" />
+											</viz.data:dimensions>
+											<viz.data:measures>
+												<viz.data:MeasureDefinition name="Last Month"
+													value="{LastMonthPower}" />
+												<viz.data:MeasureDefinition name="Current Month"
+													value="{Power}" />
+											</viz.data:measures>
+										</viz.data:FlattenedDataset>
+									</viz:dataset>
+
+									<viz:feeds>
+										<viz.feeds:FeedItem uid="valueAxis" type="Measure"
+											values="Last Month,Current Month" />
+										<viz.feeds:FeedItem uid="categoryAxis" type="Dimension"
+											values="Day" />
+									</viz:feeds>
+								</viz:VizFrame>
+							</IconTabFilter>
+							<IconTabFilter text="GREEN ENERGY STATS" key="greenEnergyStats">
+								<HBox justifyContent="SpaceAround">
+									<VBox class="sapUiMediumMargin">
+										<Text text="{/LastMonthName}"/>
+										<Text text="{/LastMonthTotalEnergy} kWh" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="SO FAR THIS MONTH"/>
+										<Text text="{/ThisMonthTotalEnergy} kWh" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="PREDICTED THIS MONTH"/>
+										<Text text="{/PredictedThisMonthTotalEnergy} kWh" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="CHANGE IN EMISSIONS"/>
+										<Text text="{/ChangeInEmissionE} %" class="textCustom"/>
+									</VBox>
+								</HBox>
+								<viz:VizFrame 
+									height='20rem' width="100%" vizType='line'
+									vizProperties="{
+										legend : {
+											drawingEffect : 'glossy',
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										legendGroup : {
+											layout : {
+												position : 'right'
+											}
+										},
+										plotArea : {
+											drawingEffect : 'glossy'
+										},
+										valueAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										categoryAxis : {
+											color: 'white',
+											visible : 'true',
+											title : {
+												visible : 'false'
+											},
+											label : {
+												style : {
+													color : 'white'
+												}
+											}
+										},
+										title : {
+											text : '',
+											visible : 'false'
+										}
+									}">
+									<viz:dataset>
+										<viz.data:FlattenedDataset data="{/ThisMonthCost}">
+											<viz.data:dimensions>
+												<viz.data:DimensionDefinition name="Day"
+													value="Day {Day}" />
+											</viz.data:dimensions>
+											<viz.data:measures>
+												<viz.data:MeasureDefinition name="Last Month"
+													value="{LastMonthEnergy}" />
+												<viz.data:MeasureDefinition name="Current Month"
+													value="{Energy}" />
+											</viz.data:measures>
+										</viz.data:FlattenedDataset>
+									</viz:dataset>
+
+									<viz:feeds>
+										<viz.feeds:FeedItem uid="valueAxis" type="Measure"
+											values="Last Month,Current Month" />
+										<viz.feeds:FeedItem uid="categoryAxis" type="Dimension"
+											values="Day" />
+									</viz:feeds>
+								</viz:VizFrame>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+	</Page>
+	</detailPages>
+</SplitApp>
+</mvc:View>

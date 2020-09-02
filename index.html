@@ -1,17 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <title>Vanilla JavaScript App</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MSADB</title>
+
+	<script id="sap-ui-bootstrap"
+		src="https://sapui5.netweaver.ondemand.com/sdk/resources/sap-ui-core.js"
+		data-sap-ui-theme="sap_belize"
+		data-sap-ui-resourceroots='{
+			"MSADB": "./",
+			"dataFile": "mockdata"
+		}'
+		data-sap-ui-compatVersion="edge"
+		data-sap-ui-async="true"
+		data-sap-ui-frameOptions="trusted"
+		data-sap-ui-oninit="module:sap/ui/core/ComponentSupport">
+	</script>
+	<link rel="stylesheet" type="text/css" href="css/App.css">
+	<style>
+		html, body { height: 100%; }
+	</style>
 </head>
 
-<body>
-  <main>
-    <h1>Vanilla JavaScript App Nad</h1>
-  </main>
+<body class="sapUiBody sapUiSizeCozy" id="content">
+	<div data-sap-ui-component
+		data-name="MSADB"
+		data-height="100%"
+		data-id="container"
+		data-settings='{"id" : "MSADB"}'
+		style="height: 100%">
+	</div>
 </body>
-
 </html>

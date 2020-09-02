@@ -1,0 +1,100 @@
+.sapUiBlockLayoutSizeL:not(.sapUiBlockLayoutKeepFontSize) .sapUiBlockCellContent {
+    padding: 1rem 1rem !important;
+    font-size: 1rem;
+}
+.sapMTitleStyleAuto {
+    font-size: 2rem !important;
+    font-weight: bolder !important;
+}
+.sapUiBlockCellTitle {
+    font-size: 1.25rem !important;
+}
+.blockLayoutCustom {
+    background-color: RGB(33,97,136);
+    padding: 1rem;
+}
+.blockLayoutCellCustom{
+    padding: 0.3rem;
+   // height: 80%;
+}
+.sapUiBlockCellContent {
+    background-color: RGB(30,54,92) !important;
+        color: white !important;
+}
+.sapMLIB {
+    background: RGB(24,23,69) !important;
+    color: white !important;
+    border: #181745 !important;
+}
+.masterPageCustom{
+    background: RGB(24,23,69) !important;
+}
+.sapMSLITitle, .sapMSLITitleOnly {
+    color: white !important;
+}
+.sapMSLIImgIcon, .sapMSLIImgNoInsetIcon {
+    color: white !important;
+}
+.sapMBarPH {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #216188 !important;
+}
+.sapMIBar-CTX .sapMTitle {
+    color: white !important;
+    text-shadow: 0 0 0.125rem #fff;
+}
+.sapMLabel {
+    color: white !important;
+}
+.sapMPageBgSolid {
+    background-color: #216188!important;
+}
+#__xmlview0--master-intHeader-BarPH{
+    background-color: #181745 !important;
+}
+
+
+
+
+.sapMITBContent {
+    border-bottom: 0rem !important;
+    background-color: #1e365c !important;
+}
+.sapMText {
+    display: inline;
+    box-sizing: border-box;
+    white-space: pre-line;
+    word-wrap: break-word;
+    cursor: text;
+    font-size: 1.3rem;
+    font-family: "72","72full",Arial,Helvetica,sans-serif;
+    line-height: unset;
+    color: white !important;
+}
+ .sapUiResponsiveContentPadding .sapMITH {
+    padding: 0 3rem;
+    background-color: #1e365c !important;
+}
+.sapMITBTextOnly .sapMITBFilterDefault .sapMITBText {
+    color: white !important;
+    text-shadow: 0 0 0.125rem #fff;
+}
+.textCustom{
+    font-size: 3.5rem !important;
+}
+.sapMFlexItemAlignAuto {
+    -webkit-align-self: auto;
+    align-self: center !important;
+}
+
+.sapMFlexBoxAlignItemsStretch {
+    align-items: center !important;
+}
+
+.sapMBarLeft {
+    /* padding-left: 0rem; */
+    background-color: #181745 !important;
+    /* margin-left: 0rem; */
+}
