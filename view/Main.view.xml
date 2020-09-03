@@ -651,7 +651,7 @@
 							<IconTabFilter text="THIS MONTH" key="thisMonth">
 								<HBox justifyContent="SpaceAround" alignContent="SpaceAround" alignItems="Center">
 									<ComboBox
-										selectedKey="Floor1"
+										selectedKey="F1"
 										items="{
 											path: '/FloorList'
 										}"
@@ -660,15 +660,15 @@
 										<core:Item key="{Key}" text="{Name}" />
 									</ComboBox>
 									<VBox class="sapUiMediumMargin">
-										<Text text="460 kWh" class="textCustom"/>
+										<Text text="{/TotalUsageByFloorThisMonth} kWh" class="textCustom"/>
 										<HBox justifyContent="SpaceAround">
 											<VBox class="sapUiMediumMargin">
 												<Text text="Electricity"/>
 												<Text text="Gas"/>
 											</VBox>
 											<VBox class="sapUiMediumMargin">
-												<Text text="276kWh"/>
-												<Text text="184kWh"/>
+												<Text text="{/TotalEnergyUsageByFloorThisMonth}"/>
+												<Text text="{/TotalPowerUsageByFloorThisMonth}"/>
 											</VBox>
 										</HBox>
 									</VBox>
@@ -743,7 +743,7 @@
 											</viz.data:dimensions>
 											<viz.data:measures>
 												<viz.data:MeasureDefinition name = "Unit(kWh)"
-													value = "{Unit}" />
+													value = "{Energy}" />
 											</viz.data:measures>
 										</viz.data:FlattenedDataset>
 									</viz:dataset>
@@ -761,7 +761,7 @@
 							<IconTabFilter text="LAST MONTH" key="lastMonth">
 								<HBox justifyContent="SpaceAround">
 									<ComboBox
-										selectedKey="Floor1"
+										selectedKey="F1"
 										items="{
 											path: '/FloorList'
 										}"
@@ -770,15 +770,15 @@
 										<core:Item key="{Key}" text="{Name}" />
 									</ComboBox>
 									<VBox class="sapUiMediumMargin">
-										<Text text="480 kWh" class="textCustom"/>
+										<Text text="{/TotalUsageByFloorLastMonth} kWh" class="textCustom"/>
 										<HBox justifyContent="SpaceAround">
 											<VBox class="sapUiMediumMargin">
 												<Text text="Electricity"/>
 												<Text text="Gas"/>
 											</VBox>
 											<VBox class="sapUiMediumMargin">
-												<Text text="266kWh"/>
-												<Text text="164kWh"/>
+												<Text text="{/TotalEnergyUsageByFloorLastMonth}"/>
+												<Text text="{/TotalPowerUsageByFloorLastMonth}"/>
 											</VBox>
 										</HBox>
 									</VBox>
@@ -853,7 +853,7 @@
 											</viz.data:dimensions>
 											<viz.data:measures>
 												<viz.data:MeasureDefinition name = "Unit"
-													value = "{Unit}" />
+													value = "{Energy}" />
 											</viz.data:measures>
 										</viz.data:FlattenedDataset>
 									</viz:dataset>

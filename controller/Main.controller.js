@@ -160,6 +160,9 @@ sap.ui.define([
 				//console.log(oEvent.getSource().getProperty("/"));
 			}, this).loadData("https://cors-anywhere.herokuapp.com/http://smartmeterwebapp.azurewebsites.net/api/WebAPI");
 			
+
+			that.loadUsageByFloor(oView,"ThisMonth","F1");
+			that.loadUsageByFloor(oView,"LastMonth","F1");
 			setTimeout(function(){ that.loadEmission();}, 10000);
 			
 			
@@ -180,12 +183,14 @@ sap.ui.define([
 			return result;
 		},
 		onTMListChange : function(oEvent){
-			var sItem = oEvent.getSource().getSelectedKey();
-				this.getView().getModel().setProperty("/ThisMonthUnit",this.getView().getModel().getProperty("/"+ sItem +"_ThisMonth"));
+			var oSelectedFloor = oEvent.getSource().getSelectedKey();
+				this.loadUsageByFloor(this.getView(),"ThisMonth",oSelectedFloor);
+				//this.getView().getModel().setProperty("/ThisMonthUnit",this.getView().getModel().getProperty("/"+ sItem +"_ThisMonth"));
 		},
 		onLMListChange : function(oEvent){
-			var sItem = oEvent.getSource().getSelectedKey();
-				this.getView().getModel().setProperty("/LastMonthUnit",this.getView().getModel().getProperty("/"+ sItem +"_LastMonth"));
+			var oSelectedFloor = oEvent.getSource().getSelectedKey();
+				this.loadUsageByFloor(this.getView(),"LastMonth",oSelectedFloor);
+				//this.getView().getModel().setProperty("/LastMonthUnit",this.getView().getModel().getProperty("/"+ sItem +"_LastMonth"));
 		},
 		loadEmission : function(){
 			var oView = this.getView();
@@ -204,6 +209,32 @@ sap.ui.define([
 					});
 				});
 				console.log(oThisMonthCost);
+		},
+		loadUsageByFloor : function(oView,month,oSelectedFloor){
+			console.log("oSelectedFloor : " + oSelectedFloor );
+			var UsageByFloor= new sap.ui.model.json.JSONModel();
+			UsageByFloor.attachRequestCompleted(function(oEvent) {
+				var result = oEvent.getSource().getProperty("/");
+					if(result.length == 0){
+						result = oView.getModel().getProperty("/BlankData")
+					}
+				var TotalUsageByFloor = 0;
+				var TotalEnergyUsageByFloor = 0;
+				var TotalPowerUsageByFloor = 0;
+					$.each(result, function(i, oElement){
+						oElement.Date = new Date(oElement.Date).getMonth()+1 + "/" 
+										+ new Date(oElement.Date).getDate() + "/"
+										+ new Date(oElement.Date).getFullYear();
+						TotalUsageByFloor = TotalUsageByFloor + parseFloat(oElement.Energy)+ parseFloat(oElement.Power);
+						TotalPowerUsageByFloor = TotalPowerUsageByFloor + parseFloat(oElement.Power);
+						TotalEnergyUsageByFloor = TotalEnergyUsageByFloor + parseFloat(oElement.Energy);
+					});
+				oView.getModel().setProperty("/"+month+"Unit",result);
+				oView.getModel().setProperty("/TotalUsageByFloor"+month,Math.floor(TotalUsageByFloor / 10));
+				oView.getModel().setProperty("/TotalEnergyUsageByFloor"+month,Math.floor(TotalEnergyUsageByFloor / 10));
+				oView.getModel().setProperty("/TotalPowerUsageByFloor"+month,Math.floor(TotalPowerUsageByFloor / 10));
+				//console.log(oEvent.getSource().getProperty("/"));
+			}, this).loadData("https://cors-anywhere.herokuapp.com/http://smartmeterwebapp.azurewebsites.net/api/UsageByFloor?oFilter="+month+"&selectedFloor="+oSelectedFloor);
 		}
 	});
 });

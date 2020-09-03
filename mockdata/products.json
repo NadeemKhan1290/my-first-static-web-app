@@ -2176,6 +2176,14 @@
 							{"Area": "Master Bedroom", "Date": "July 30", "Unit": 3},
 							{"Area": "Master Bedroom", "Date": "July 31", "Unit": 4}
 						],
+	"BlankData":[
+							{"Area": "Master Bedroom", "Date": "0",  "Power": 0, "Energy" : 0},
+							{"Area": "Bedroom 1", "Date": "0",  "Power": 0, "Energy" : 0},
+							{"Area": "Drawing Room", "Date": "0",  "Power": 0, "Energy" : 0},
+							{"Area": "Others", "Date": "0",  "Power": 0, "Energy" : 0},
+							{"Area": "Kichen", "Date": "0",  "Power": 0, "Energy" : 0},
+							{"Area": "Living Room", "Date": "0",  "Power": 0, "Energy" : 0}
+						],
 	"RoomItemList" : [
 						{"Name":"Master Bedroom","Key": "MasterBedroom"},
 						{"Name":"Bedroom 1","Key": "Bedroom1"},
@@ -2186,9 +2194,9 @@
 						{"Name":"Others","Key": "Others"}
 					],
 	"FloorList" : [
-						{"Name":"Floor 1","Key": "Floor1"},
-						{"Name":"Floor 2","Key": "Floor2"},
-						{"Name":"Floor 3","Key": "Floor3"}
+						{"Name":"Floor 1","Key": "F1"},
+						{"Name":"Floor 2","Key": "F2"},
+						{"Name":"Floor 3","Key": "F3"}
 					],
 	"MenuList" : [
 						{"TargetPage":"Dashboard","Name": "Dashboard", "icon" :"sap-icon://bbyd-dashboard"},
