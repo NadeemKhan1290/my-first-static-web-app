@@ -13,7 +13,7 @@
 	<masterPages>
 		<Page 					
 			id="master"
-			title="Smart Building"
+			title="Energy Management"
 			backgroundDesign= "List"
 			icon="sap-icon://action"
 			class="sapUiStdPage masterPageCustom">
@@ -43,7 +43,7 @@
 	<detailPages>
 	<Page 				
 		id="Dashboard"
-		title="Smart Building - Dashboard"
+		title="Energy Management - Dashboard"
 		backgroundDesign= "Solid"
 		class="sapUiStdPage">
 		<l:BlockLayout id="BlockLayout" background="Dashboard" class="blockLayoutCustom">
@@ -201,7 +201,7 @@
 					</viz:VizFrame>
 				
 				</l:BlockLayoutCell>
-				<l:BlockLayoutCell title = "USAGE ESTIMATE(kWh)" titleAlignment="Left" class="blockLayoutCellCustom">
+				<l:BlockLayoutCell title = "DAILY USAGE(kWh)" titleAlignment="Left" class="blockLayoutCellCustom">
 					<viz:VizFrame 
 						height='15.4rem' width="100%" vizType='area'
 						vizProperties="{
@@ -275,7 +275,7 @@
 				</l:BlockLayoutCell>
 			</l:BlockLayoutRow>
 			<l:BlockLayoutRow accentCells="Accent1" scrollable="false">
-				<l:BlockLayoutCell title = "ACTIVE APPLIANCES(kWh)" titleAlignment="Left" class="blockLayoutCellCustom">
+				<l:BlockLayoutCell title = "USAGE BY WC" titleAlignment="Left" class="blockLayoutCellCustom">
 					<viz:VizFrame 
 						height='15.4rem' width="100%" vizType='bar'
 						vizProperties="{
@@ -331,23 +331,23 @@
 							}
 						}">
 						<viz:dataset>
-							<viz.data:FlattenedDataset data="{/ActiveAppliances}">
+							<viz.data:FlattenedDataset data="{/UsageByWC}">
 								<viz.data:dimensions>
-									<viz.data:DimensionDefinition name="Appliance"
-										value="{CategoryDesc}" />
+									<viz.data:DimensionDefinition name="WC"
+										value="{AreaCode}" />
 								</viz.data:dimensions>
 								<viz.data:measures>
-									<viz.data:MeasureDefinition name="Power"
-										value="{Power}" />
+									<viz.data:MeasureDefinition name="Usage"
+										value="{Energy}" />
 								</viz.data:measures>
 							</viz.data:FlattenedDataset>
 						</viz:dataset>
 
 						<viz:feeds>
 							<viz.feeds:FeedItem uid="valueAxis" type="Measure"
-								values="Power" />
+								values="Usage" />
 							<viz.feeds:FeedItem uid="categoryAxis" type="Dimension"
-								values="Appliance" />
+								values="WC" />
 						</viz:feeds>
 					</viz:VizFrame>
 				</l:BlockLayoutCell>
@@ -446,7 +446,7 @@
 	</Page>
 	<Page 				
 		id="Cost"
-		title="Smart Building - Cost"
+		title="Energy Management - Cost"
 		backgroundDesign= "Solid"
 		class="sapUiStdPage">
 		<l:BlockLayout background="Dashboard" class="blockLayoutCustom">
@@ -638,37 +638,37 @@
 		</l:BlockLayout>
 	</Page>
 	<Page 				
-		id="UsageByFloor"
-		title="Smart Building - Usage By Floor"
+		id="UsageByWC"
+		title="Energy Management - Usage By WC"
 		backgroundDesign= "Solid"
 		class="sapUiStdPage">
 		<l:BlockLayout background="Dashboard" class="blockLayoutCustom">
 			<l:BlockLayoutRow accentCells="Accent1" scrollable="false">
-				<l:BlockLayoutCell title = "Usage By Floor" titleAlignment="Left" class="blockLayoutCellCustom">
+				<l:BlockLayoutCell title = "Usage By WC" titleAlignment="Left" class="blockLayoutCellCustom">
 					<IconTabBar
 						class="sapUiResponsiveContentPadding">
 						<items>
 							<IconTabFilter text="THIS MONTH" key="thisMonth">
 								<HBox justifyContent="SpaceAround" alignContent="SpaceAround" alignItems="Center">
 									<ComboBox
-										selectedKey="F1"
+										selectedKey="P1"
 										items="{
-											path: '/FloorList'
+											path: '/PlantList'
 										}"
 										class="sapUiMediumMargin"
 										change="onTMListChange">
 										<core:Item key="{Key}" text="{Name}" />
 									</ComboBox>
 									<VBox class="sapUiMediumMargin">
-										<Text text="{/TotalUsageByFloorThisMonth} kWh" class="textCustom"/>
+										<Text text="{/TotalUsageByWCThisMonth} kWh" class="textCustom"/>
 										<HBox justifyContent="SpaceAround">
 											<VBox class="sapUiMediumMargin">
 												<Text text="Electricity"/>
 												<Text text="Gas"/>
 											</VBox>
 											<VBox class="sapUiMediumMargin">
-												<Text text="{/TotalEnergyUsageByFloorThisMonth}"/>
-												<Text text="{/TotalPowerUsageByFloorThisMonth}"/>
+												<Text text="{/TotalEnergyUsageByWCThisMonth}"/>
+												<Text text="{/TotalPowerUsageByWCThisMonth}"/>
 											</VBox>
 										</HBox>
 									</VBox>
@@ -761,24 +761,24 @@
 							<IconTabFilter text="LAST MONTH" key="lastMonth">
 								<HBox justifyContent="SpaceAround">
 									<ComboBox
-										selectedKey="F1"
+										selectedKey="P1"
 										items="{
-											path: '/FloorList'
+											path: '/PlantList'
 										}"
 										class="sapUiMediumMargin"
 										change="onLMListChange">
 										<core:Item key="{Key}" text="{Name}" />
 									</ComboBox>
 									<VBox class="sapUiMediumMargin">
-										<Text text="{/TotalUsageByFloorLastMonth} kWh" class="textCustom"/>
+										<Text text="{/TotalUsageByWCLastMonth} kWh" class="textCustom"/>
 										<HBox justifyContent="SpaceAround">
 											<VBox class="sapUiMediumMargin">
 												<Text text="Electricity"/>
 												<Text text="Gas"/>
 											</VBox>
 											<VBox class="sapUiMediumMargin">
-												<Text text="{/TotalEnergyUsageByFloorLastMonth}"/>
-												<Text text="{/TotalPowerUsageByFloorLastMonth}"/>
+												<Text text="{/TotalEnergyUsageByWCLastMonth}"/>
+												<Text text="{/TotalPowerUsageByWCLastMonth}"/>
 											</VBox>
 										</HBox>
 									</VBox>
@@ -876,7 +876,7 @@
 	</Page>
 	<Page 				
 		id="Emissions"
-		title="Smart Building - Emissions"
+		title="Energy Management - Emissions"
 		backgroundDesign= "Solid"
 		class="sapUiStdPage">
 		<l:BlockLayout background="Dashboard" class="blockLayoutCustom">
@@ -1064,6 +1064,419 @@
 											values="Day" />
 									</viz:feeds>
 								</viz:VizFrame>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+	</Page>
+	<Page 				
+		id="Alerts"
+		title="Energy Management - Alerts"
+		backgroundDesign= "Solid"
+		class="sapUiStdPage">
+		<l:BlockLayout background="Dashboard" class="blockLayoutCustom">
+			<l:BlockLayoutRow accentCells="Accent1" scrollable="false">
+				<l:BlockLayoutCell title = "ALERTS AND NOTIFICATION" titleAlignment="Left" class="blockLayoutCellCustom">
+					<IconTabBar
+						class="sapUiResponsiveContentPadding">
+						<items>
+							<IconTabFilter text="OVERVIEW" key="overview">
+								<HBox justifyContent="SpaceAround">
+									<VBox class="sapUiMediumMargin">
+										<Text text="Open"/>
+										<Text text="{/openStatusCount}" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="Closed"/>
+										<Text text="{/closeStatusCount}" class="textCustom"/>
+									</VBox>
+									<VBox class="sapUiMediumMargin">
+										<Text text="Wip"/>
+										<Text text="{/wipStatusCount}" class="textCustom"/>
+									</VBox>
+								</HBox>
+								<l:BlockLayout >
+									<l:BlockLayoutRow accentCells="Accent1" scrollable="false">
+										<l:BlockLayoutCell title = "BY CATEGORY" titleAlignment="Left" class="blockLayoutCellCustom">
+											<viz:VizFrame 
+												height='15rem' width="100%" vizType='pie'
+												vizProperties="{
+													legend : {
+														drawingEffect : 'glossy',
+														visible : 'false'
+													},
+													legendGroup : {
+														layout : {
+															position : 'right'
+														}
+													},
+													plotArea : {
+														drawingEffect : 'glossy',
+														gridline : {
+															visible : 'false'
+														},
+														dataLabel : {
+															visible : 'true',
+															style : {
+																color : 'white'
+															},
+															formatString : '0.00'
+														}
+													},
+													valueAxis : {
+														color: 'white',
+														visible : 'false',
+														title : {
+															visible : 'false'
+														},
+														label : {
+															style : {
+																color : 'white'
+															}
+														}
+													},
+													categoryAxis : {
+														color: 'white',
+														visible : 'true',
+														title : {
+															visible : 'false'
+														},
+														label : {
+															style : {
+																color : 'white'
+															}
+														}
+													},
+													title : {
+														text : '',
+														visible : 'false'
+													}
+												}">
+												<viz:dataset>
+													<viz.data:FlattenedDataset data="{/AlertByCategory}">
+														<viz.data:dimensions>
+															<viz.data:DimensionDefinition name="Name"
+																value="{Name}" />
+														</viz.data:dimensions>
+														<viz.data:measures>
+															<viz.data:MeasureDefinition name="Count"
+																value="{Count}" />
+														</viz.data:measures>
+													</viz.data:FlattenedDataset>
+												</viz:dataset>
+
+												<viz:feeds>
+													<viz.feeds:FeedItem uid="size" type="Measure"
+														values="Count" />
+													<viz.feeds:FeedItem uid="color" type="Dimension"
+														values="Name" />
+												</viz:feeds>
+											</viz:VizFrame>
+										</l:BlockLayoutCell>
+										<l:BlockLayoutCell title = "BY PRIORITY" titleAlignment="Left" class="blockLayoutCellCustom">
+											<viz:VizFrame 
+												height='15rem' width="100%" vizType='pie'
+												vizProperties="{
+													legend : {
+														drawingEffect : 'glossy',
+														visible : 'false'
+													},
+													legendGroup : {
+														layout : {
+															position : 'right'
+														}
+													},
+													plotArea : {
+														drawingEffect : 'glossy',
+														gridline : {
+															visible : 'false'
+														},
+														dataLabel : {
+															visible : 'true',
+															style : {
+																color : 'white'
+															},
+															formatString : '0.00'
+														}
+													},
+													valueAxis : {
+														color: 'white',
+														visible : 'false',
+														title : {
+															visible : 'false'
+														},
+														label : {
+															style : {
+																color : 'white'
+															}
+														}
+													},
+													categoryAxis : {
+														color: 'white',
+														visible : 'true',
+														title : {
+															visible : 'false'
+														},
+														label : {
+															style : {
+																color : 'white'
+															}
+														}
+													},
+													title : {
+														text : '',
+														visible : 'false'
+													}
+												}">
+												<viz:dataset>
+													<viz.data:FlattenedDataset data="{/AlertByPriority}">
+														<viz.data:dimensions>
+															<viz.data:DimensionDefinition name="Name"
+																value="{Name}" />
+														</viz.data:dimensions>
+														<viz.data:measures>
+															<viz.data:MeasureDefinition name="Count"
+																value="{Count}" />
+														</viz.data:measures>
+													</viz.data:FlattenedDataset>
+												</viz:dataset>
+
+												<viz:feeds>
+													<viz.feeds:FeedItem uid="size" type="Measure"
+														values="Count" />
+													<viz.feeds:FeedItem uid="color" type="Dimension"
+														values="Name" />
+												</viz:feeds>
+											</viz:VizFrame>
+										</l:BlockLayoutCell>
+										<l:BlockLayoutCell title = "BY WC" titleAlignment="Left" class="blockLayoutCellCustom">
+											<viz:VizFrame 
+												height='15rem' width="100%" vizType='pie'
+												vizProperties="{
+													legend : {
+														drawingEffect : 'glossy',
+														visible : 'false'
+													},
+													legendGroup : {
+														layout : {
+															position : 'right'
+														}
+													},
+													plotArea : {
+														drawingEffect : 'glossy',
+														gridline : {
+															visible : 'false'
+														},
+														dataLabel : {
+															visible : 'true',
+															style : {
+																color : 'white'
+															},
+															formatString : '0.00'
+														}
+													},
+													valueAxis : {
+														color: 'white',
+														visible : 'false',
+														title : {
+															visible : 'false'
+														},
+														label : {
+															style : {
+																color : 'white'
+															}
+														}
+													},
+													categoryAxis : {
+														color: 'white',
+														visible : 'true',
+														title : {
+															visible : 'false'
+														},
+														label : {
+															style : {
+																color : 'white'
+															}
+														}
+													},
+													title : {
+														text : '',
+														visible : 'false'
+													}
+												}">
+												<viz:dataset>
+													<viz.data:FlattenedDataset data="{/AlertByWorkCenter}">
+														<viz.data:dimensions>
+															<viz.data:DimensionDefinition name="Name"
+																value="{Name}" />
+														</viz.data:dimensions>
+														<viz.data:measures>
+															<viz.data:MeasureDefinition name="Count"
+																value="{Count}" />
+														</viz.data:measures>
+													</viz.data:FlattenedDataset>
+												</viz:dataset>
+
+												<viz:feeds>
+													<viz.feeds:FeedItem uid="size" type="Measure"
+														values="Count" />
+													<viz.feeds:FeedItem uid="color" type="Dimension"
+														values="Name" />
+												</viz:feeds>
+											</viz:VizFrame>
+										</l:BlockLayoutCell>
+									</l:BlockLayoutRow>
+									<l:BlockLayoutRow accentCells="Accent2" scrollable="false">
+										<l:BlockLayoutCell title = "BY DATE" titleAlignment="Left" class="blockLayoutCellCustom">
+											<viz:VizFrame 
+												height='15rem' width="100%" vizType='column'
+												vizProperties="{
+													legend : {
+														drawingEffect : 'glossy',
+														visible : 'false'
+													},
+													legendGroup : {
+														layout : {
+															position : 'right'
+														}
+													},
+													plotArea : {
+														drawingEffect : 'glossy',
+														gridline : {
+															visible : 'false'
+														},
+														dataLabel : {
+															visible : 'true',
+															style : {
+																color : 'white'
+															}
+														}
+													},
+													valueAxis : {
+														color: 'white',
+														visible : 'false',
+														title : {
+															visible : 'false'
+														},
+														label : {
+															style : {
+																color : 'white'
+															}
+														}
+													},
+													categoryAxis : {
+														color: 'white',
+														visible : 'true',
+														title : {
+															visible : 'false'
+														},
+														label : {
+															style : {
+																color : 'white'
+															}
+														}
+													},
+													title : {
+														text : '',
+														visible : 'false'
+													}
+												}">
+												<viz:dataset>
+													<viz.data:FlattenedDataset data="{/AlertByDate}">
+														<viz.data:dimensions>
+															<viz.data:DimensionDefinition name="Name"
+																value="{Name}"/>
+														</viz.data:dimensions>
+														<viz.data:measures>
+															<viz.data:MeasureDefinition name="Count"
+																value="{Count}"/>
+														</viz.data:measures>
+													</viz.data:FlattenedDataset>
+												</viz:dataset>
+
+												<viz:feeds>
+													<viz.feeds:FeedItem uid="valueAxis" type="Measure"
+														values="Count"/>
+													<viz.feeds:FeedItem uid="categoryAxis" type="Dimension"
+														values="Name" />
+												</viz:feeds>
+											</viz:VizFrame>
+										</l:BlockLayoutCell>
+									</l:BlockLayoutRow>
+								</l:BlockLayout>
+							</IconTabFilter>
+							<IconTabFilter text="ALERT DETAILS" key="overview">
+								<Table 
+									inset="false"
+									items="{
+										path: '/AlertDetails',
+										sorter: {
+											path: 'Name'
+										}
+									}">
+									<columns>
+										<Column
+											minScreenWidth="Tablet"
+											demandPopin="true">
+											<Text text="Description" />
+										</Column>
+										<Column
+											minScreenWidth="Desktop"
+											demandPopin="true"
+											hAlign="Center">
+											<Text text="Category" />
+										</Column>
+										<Column
+											minScreenWidth="Desktop"
+											demandPopin="true"
+											hAlign="Center">
+											<Text text="Priority" />
+										</Column>
+										<Column
+											hAlign="Center">
+											<Text text="WorkCenter" />
+										</Column>
+										<Column
+											hAlign="Center">
+											<Text text="Status" />
+										</Column>
+										<Column
+											hAlign="Center">
+											<Text text="Start" />
+										</Column>
+										<Column
+											hAlign="Center">
+											<Text text="End" />
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<!-- <ObjectIdentifier -->
+													<!-- title="{Name}" -->
+													<!-- text="{ProductId}"/> -->
+												<Text
+													text="{Description}" />
+												<Text
+													text="{Category}" />
+												<Text
+													text="{Priority}" />
+												<Text
+													text="{WorkCenter}" />
+												<Text
+													text="{Status}" />
+												<Text
+													text="{Start}" />
+												<Text
+													text="{Start}" />
+												<Text
+													text="{End}" />
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
 							</IconTabFilter>
 						</items>
 					</IconTabBar>

@@ -98,3 +98,19 @@
     background-color: #181745 !important;
     /* margin-left: 0rem; */
 }
+.sapMListTblRow {
+    height: 3rem;
+    background-color: transparent !important;
+}
+.sapMList {
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: transparent !important;
+}
+.sapMTableTH {
+    background: #216188 !important;
+    border-bottom: 1px solid #e5e5e5;
+    vertical-align: middle;
+}
